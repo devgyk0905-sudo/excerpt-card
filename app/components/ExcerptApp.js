@@ -39,9 +39,9 @@ const MORE_FONTS = [
 ]
 
 export default function ExcerptApp() {
-  const [body,       setBody]      = useState('"두려움을 이기는 것은\n용기가 아니라 이해다."')
-  const [title,      setTitle]     = useState('카라마조프가의 형제들')
-  const [author,     setAuthor]    = useState('도스토옙스키')
+  const [body,       setBody]      = useState('')
+  const [title,      setTitle]     = useState('')
+  const [author,     setAuthor]    = useState('')
   const [ratio,      setRatio]     = useState('r11')
   const [bgColor,    setBgColor]   = useState('#C8D8E8')
   const [bgImage,    setBgImage]   = useState(null)
