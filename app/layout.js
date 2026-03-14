@@ -7,8 +7,16 @@ const nanumMyeongjo = Nanum_Myeongjo({ subsets: ['latin'], weight: ['400'], vari
 const nanumGothic = Nanum_Gothic({ subsets: ['latin'], weight: ['400'], variable: '--font-nanum-gothic' })
 
 export const metadata = {
-  title: '발췌 카드',
-  description: '책 발췌 이미지 생성기',
+  title: '✉️발췌 카드 만들기',
+  description: '책 속 문장을 카드로 만들어 보세요',
+  icons: {
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✉️</text></svg>",
+  },
+  openGraph: {
+    title: '✉️ 발췌 카드 생성하기',
+    description: '책 속 문장을 카드로 만들어 보세요',
+    images: ['/og-image.png'],
+  },
 }
 
 export const viewport = {

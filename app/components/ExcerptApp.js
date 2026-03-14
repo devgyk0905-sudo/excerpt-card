@@ -62,9 +62,9 @@ export default function ExcerptApp() {
   const [title,      setTitle]     = useState('')
   const [author,     setAuthor]    = useState('')
   const [ratio,      setRatio]     = useState('r11')
-  const [bgColor,    setBgColor]   = useState('#C8D8E8')
+  const [bgColor,    setBgColor]   = useState('#ffffff')
   const [bgImage,    setBgImage]   = useState(null)
-  const [selColor,   setSelColor]  = useState('c1')
+  const [selColor,   setSelColor]  = useState('white')
   const [fontCss,    setFontCss]   = useState("var(--font-noto-sans), 'Noto Sans KR', sans-serif")
   const [activeFont, setActiveFont]= useState('pretendard')
   const [fontSize,   setFontSize]  = useState(1)
@@ -256,7 +256,7 @@ export default function ExcerptApp() {
 
         {/* 상단 바 */}
         <div style={s.topBar}>
-          <span style={s.appTitle}>✉️발췌 카드 생성하기</span>
+          <span style={s.appTitle}>✉️발췌 카드 만들기</span>
           <button style={s.darkBtn} onClick={() => setIsDark(d => !d)}>
             <span>{isDark ? '☀️' : '🌙'}</span>
             <span>{isDark ? '라이트 모드' : '다크 모드'}</span>
@@ -295,7 +295,7 @@ export default function ExcerptApp() {
 
           {/* 발췌 옵션 토글 */}
           <div onClick={() => setOptOpen(o => !o)}
-            style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', userSelect: 'none', padding: '3px 0 10px', width: '100%' }}>
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', userSelect: 'none', padding: '3px 0 10px', width: '100%' }}>
             <span style={s.lv1}>
               발췌 옵션 &nbsp;|&nbsp;
               <span style={{ fontSize: 11, color: t3 }}>{optOpen ? '닫기' : '열기'}</span>
