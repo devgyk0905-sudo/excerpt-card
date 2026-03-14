@@ -54,6 +54,7 @@ export default function ExcerptApp() {
   const [optOpen,    setOptOpen]   = useState(false)
   const [moreOpen,   setMoreOpen]  = useState(false)
   const [isDark,     setIsDark]    = useState(false)
+  const [modalImg,   setModalImg]  = useState(null)
 
   const previewRef   = useRef(null)
   const textareaRef  = useRef(null)
@@ -115,18 +116,24 @@ export default function ExcerptApp() {
     } catch(e) { alert('저장 오류: ' + e.message) }
   }
   async function copyImage() {
-    try {
-      const canvas = await doExport()
+  try {
+    const canvas = await doExport()
+    const dataUrl = canvas.toDataURL('image/png')
+      // 클립보드 복사 시도
       canvas.toBlob(async blob => {
         try {
           await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
           const btn = document.getElementById('copy-btn')
           btn.textContent = '복사됨 ✓'
-          setTimeout(() => { btn.textContent = '복사하기' }, 1500)
-        } catch { alert('이 브라우저는 클립보드 복사를 지원하지 않아요.') }
+         setTimeout(() => { btn.textContent = '복사하기' }, 1500)
+        } catch {
+          // 실패하면 모달로 이미지 띄우기
+          setModalImg(dataUrl)
+        }
       })
     } catch(e) { alert('복사 오류: ' + e.message) }
   }
+
 
   const ratioClass = { r11: '1/1', r34: '3/4', r916: '9/16' }
 
@@ -377,6 +384,22 @@ pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, te
 
         </div>
       </div>
+    {modalImg && (
+        <div onClick={() => setModalImg(null)}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 1000, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+          <p style={{ color: '#fff', fontSize: 13, marginBottom: 16, fontFamily: sans }}>이미지를 길게 눌러 저장하세요</p>
+          <img
+            src={modalImg}
+            alt="발췌 카드"
+            style={{ maxWidth: '100%', maxHeight: '70vh', borderRadius: 12, WebkitTouchCallout: 'default' }}
+            onClick={e => e.stopPropagation()}
+          />
+          <button onClick={() => setModalImg(null)}
+            style={{ marginTop: 20, padding: '8px 24px', borderRadius: 20, border: '0.5px solid rgba(255,255,255,0.4)', background: 'none', color: '#fff', fontSize: 12, cursor: 'pointer', fontFamily: sans }}>
+            닫기
+          </button>
+        </div>
+      )}
     </div>
   )
 }
