@@ -239,7 +239,7 @@ export default function ExcerptApp() {
     
     fontBtn: (active) => ({
       border: `0.5px solid ${active ? t1 : bdr}`,
-      borderRadius: 7, padding: '6px 11px', fontSize: 13,
+      borderRadius: 7, padding: '8px 11px', fontSize: 13,
       color: active ? bg : sub,
       background: active ? t1 : card,
       cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: sans, flexShrink: 0,
