@@ -43,7 +43,7 @@ const ALIGN_LINES = {
   left: [
     { width: '100%' },
     { width: '55%', marginRight: 'auto' },
-    { width: '80%' },
+    { width: '80%', marginRight: 'auto' },
   ],
   center: [
     { width: '100%' },
@@ -236,9 +236,10 @@ export default function ExcerptApp() {
       background: active ? t1 : card,
       cursor: 'pointer', fontFamily: sans, textAlign: 'center',
     }),
+    
     fontBtn: (active) => ({
       border: `0.5px solid ${active ? t1 : bdr}`,
-      borderRadius: 7, padding: '5px 9px', fontSize: 11,
+      borderRadius: 7, padding: '6px 11px', fontSize: 13,
       color: active ? bg : sub,
       background: active ? t1 : card,
       cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: sans, flexShrink: 0,
@@ -370,10 +371,10 @@ export default function ExcerptApp() {
                           {g.group}
                         </span>
                         {g.fonts.map(f => (
-                          <button key={f.id}
-                            style={s.fontBtn(activeFont === f.id)}
+                         <button key={f.id}
+                            style={{ ...s.fontBtn(activeFont === f.id), fontFamily: f.css }}
                             onClick={() => { setActiveFont(f.id); setFontCss(f.css) }}>
-                            {f.label}
+                           {f.label}
                           </button>
                         ))}
                       </React.Fragment>
