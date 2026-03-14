@@ -366,9 +366,9 @@ pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, te
                 <span style={s.lv2}>정렬</span>
                 <div style={{ display: 'flex', gap: 5 }}>
                   {['center', 'left', 'right'].map(a => {
-                    ```
+                    /*
                     left-center-right...로 되어야 하는데, 좌측 정렬 ui가 실제로는 중앙 정렬로 작동함(중앙정렬 아이콘은 좌측 정렬로 작동함). 내부 수정하기 번거로워 아이콘 위치 스왑하는 걸로 간단히 대처진행함.
-                    ```
+                    */
                     const active = align === a
                     const lc = lineColor(active)
                     return (
