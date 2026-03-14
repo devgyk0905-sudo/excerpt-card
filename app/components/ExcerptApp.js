@@ -58,8 +58,6 @@ export default function ExcerptApp() {
   const previewRef   = useRef(null)
   const textareaRef  = useRef(null)
   const dragState    = useRef({})
-  const imgRef       = useRef(null)
-  const renderTimer  = useRef(null)
 
   const tcMain   = tc === 'dark' ? '#111111' : '#ffffff'
   const tcAuthor = tc === 'dark' ? 'rgba(17,17,17,0.75)' : 'rgba(255,255,255,0.75)'
@@ -72,31 +70,6 @@ export default function ExcerptApp() {
   }, [])
 
   useEffect(() => { autoResize() }, [body, autoResize])
-
-  const renderPreviewImg = useCallback(async () => {
-  if (!previewRef.current || !imgRef.current) return
-  try {
-    const { default: html2canvas } = await import('html2canvas')
-    const canvas = await html2canvas(previewRef.current, {
-      scale: 2, useCORS: true, allowTaint: true, backgroundColor: null
-    })
-    imgRef.current.src = canvas.toDataURL('image/png')
-    imgRef.current.style.display = 'block'
-    previewRef.current.style.opacity = '0'
-    previewRef.current.style.position = 'absolute'
-    previewRef.current.style.pointerEvents = 'none'
-  } catch(e) { console.log('render error', e) }
-}, [])
-
-// 입력값 바뀔 때마다 디바운스로 렌더링
-useEffect(() => {
-  clearTimeout(renderTimer.current)
-  renderTimer.current = setTimeout(() => {
-    renderPreviewImg()
-  }, 600)
-  return () => clearTimeout(renderTimer.current)
-}, [body, title, author, ratio, bgColor, bgImage, fontCss, fontSize, tc, align, renderPreviewImg])
-
 
 
   /* ── PC 가로 드래그 스크롤 ── */
@@ -222,24 +195,10 @@ pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, te
 
         {/* 미리보기 */}
         <div style={s.previewWrap}>
-          <div style={{ position: 'relative' }}>
-            <div ref={previewRef} style={s.previewBox}>
-              <p style={s.pvBody}>{body}</p>
-              <p style={s.pvTitle}>{title}</p>
-              <p style={s.pvAuthor}>{author}</p>
-            </div>
-            <img
-              ref={imgRef}
-              src=""
-              alt="미리보기"
-              style={{
-                display: 'none',
-                width: '100%',
-                borderRadius: 12,
-                WebkitTouchCallout: 'default',
-                userSelect: 'none',
-              }}
-            />
+          <div ref={previewRef} style={s.previewBox}>
+           <p style={s.pvBody}>{body}</p>
+            <p style={s.pvTitle}>{title}</p>
+           <p style={s.pvAuthor}>{author}</p>
           </div>
         </div>
 
