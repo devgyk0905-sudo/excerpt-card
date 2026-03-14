@@ -9,14 +9,23 @@ const nanumGothic = Nanum_Gothic({ subsets: ['latin'], weight: ['400'], variable
 export const metadata = {
   title: '발췌 카드 만들기',
   description: '책 속 문장을 카드로 만들어 보세요',
+  // manifest 파일 경로 추가
+  manifest: 'manifest.json',
   icons: {
+    // 기본 파비콘 (브라우저 탭용)
     icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✉️</text></svg>",
+    // ios 홈 화면 아이콘 추가
+    apple : 'apple-icon.jpg',
   },
   openGraph: {
     title: '✉️발췌 카드 만들기',
     description: '책 속 문장을 카드로 만들어 보세요',
     images: ['/og-image.jpg'],
   },
+  // 웹앱 설정을 위해 추가하면 좋은 항목
+  appleWebApp: {
+    capable:  true, statusBarStyle: 'default', title:'발췌카드'
+  }
 }
 
 export const viewport = {

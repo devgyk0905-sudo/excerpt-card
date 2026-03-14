@@ -1,0 +1,23 @@
+{
+  "name": "발췌 카드 만들기",
+  "short_name": "발췌카드",
+  "description": "책 속 문장을 카드로 만들어 보세요",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/apple-icon.jpg",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-icon.jpg",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
