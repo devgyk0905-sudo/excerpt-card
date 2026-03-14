@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 
-const SIZES = [12, 14, 16, 18, 21]
+const SIZES = [14, 16, 18, 20, 22]
 const COLORS = [
   { id: 'black', hex: '#111111' },
   { id: 'white', hex: '#ffffff' },
