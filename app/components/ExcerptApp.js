@@ -215,7 +215,7 @@ export default function ExcerptApp() {
     darkBtn:     { background: 'none', border: `0.5px solid ${bdr}`, borderRadius: 20, padding: '4px 10px', fontSize: 11, color: sub, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontFamily: sans },
     // ── 미리보기: previewWrap에 좌우 padding으로 여백 확보 ──
     previewWrap: { flexShrink: 0, padding: '0 18px 12px' },
-    previewBox:  { width: '100%', aspectRatio: ratioClass[ratio], borderRadius: 12, overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '32px 28px' },
+    previewBox:  { width: '100%', aspectRatio: ratioClass[ratio], borderRadius: 0, overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '32px 28px' },
     pvBody:      { fontSize: SIZES[fontSize - 1], lineHeight: 1.8, marginBottom: 12, whiteSpace: 'pre-line', color: tcMain, textAlign: align, fontFamily: fontCss, wordBreak: 'keep-all', transition: 'all .2s' },
     pvTitle:     { fontFamily: sans, fontSize: 13, fontWeight: 400, marginBottom: 3, color: tcMain, textAlign: align },
     pvAuthor:    { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, textAlign: align },
