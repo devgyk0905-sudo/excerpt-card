@@ -298,7 +298,7 @@ export default function ExcerptApp() {
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', userSelect: 'none', padding: '3px 0 10px', width: '100%' }}>
            <span style={s.lv1}>발췌 옵션</span>
            <span>
-              <span style={{ fontSize: 11, color: t3 }}>{optOpen ? '|  닫기' : '|  열기'}</span>
+              <span style={{ fontSize: 11, color: t3 }}>{optOpen ? '|     닫기' : '|     열기'}</span>
              <span style={{ fontSize: 9, color: t3, marginLeft: 3 }}>{optOpen ? '▴' : '▾'}</span>
            </span>
           </div>
@@ -325,7 +325,7 @@ export default function ExcerptApp() {
                     <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
                       <path d="M6.5 2v9M2 6.5h9" stroke="#aaa" strokeWidth="1.4" strokeLinecap="round"/>
                     </svg>
-                    <input id="bg-file" type="file" accept="image/*" style={{ display: 'none' }} onChange={handleBgImage} />
+                    <input id="bg-file" type="file" accept="image/*, image/gif" style={{ display: 'none' }} onChange={handleBgImage} />
                   </div>
                   {COLORS.map(c => (
                     <div key={c.id}
@@ -341,7 +341,7 @@ export default function ExcerptApp() {
                       }} />
                   ))}
                 </div>
-                <label style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2, cursor: 'pointer', fontSize: 12, color: sub, fontFamily: sans }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2, cursor: 'pointer', fontSize: 12, color: sub, fontFamily: sans, paddingLeft: 5 }}>
                   <input type="checkbox" checked={bgBlur} onChange={e => setBgBlur(e.target.checked)}
                     style={{ width: 14, height: 14, cursor: 'pointer', accentColor: t1 }} />
                   배경 흐리게 하기
