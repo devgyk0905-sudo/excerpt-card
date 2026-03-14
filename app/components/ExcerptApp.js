@@ -202,7 +202,7 @@ async function copyImage() {
     appTitle:  { fontSize: 13, fontWeight: 400, color: t3, letterSpacing: '0.04em', fontFamily: sans },
     darkBtn:   { background: 'none', border: `0.5px solid ${bdr}`, borderRadius: 20, padding: '4px 10px', fontSize: 11, color: sub, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontFamily: sans },
     previewWrap: { flexShrink: 0, padding: '0 18px 12px', boxSizing: 'border-box' },
-    previewBox:  { width: '100%', aspectRatio: ratioClass[ratio], borderRadius: 12, overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '32px 28px', transition: 'background .3s' },
+    previewBox:  { width: '100%', maxWidth: '100%', aspectRatio: ratioClass[ratio], borderRadius: 12, overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '32px 28px', transition: 'background .3s' },
     pvBody:    { fontSize: SIZES[fontSize - 1], lineHeight: 1.8, marginBottom: 12, whiteSpace: 'pre-line', color: tcMain, textAlign: align, fontFamily: fontCss, wordBreak: 'keep-all', transition: 'all .2s' },
     pvTitle:  { fontFamily: sans, fontSize: 13, fontWeight: 400, marginBottom: 3, color: tcMain, textAlign: align },
 pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, textAlign: align },
