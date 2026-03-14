@@ -15,7 +15,7 @@ export const metadata = {
     // 기본 파비콘 (브라우저 탭용)
     icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✉️</text></svg>",
     // ios 홈 화면 아이콘 추가
-    apple : '/cion/apple-icon.png',
+    apple : '/icon/apple-icon.png',
   },
   openGraph: {
     title: '✉️발췌 카드 만들기',
