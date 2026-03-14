@@ -15,7 +15,7 @@ export const metadata = {
   openGraph: {
     title: '✉️발췌 카드 만들기',
     description: '책 속 문장을 카드로 만들어 보세요',
-    images: ['/og-image.png'],
+    images: ['/og-image.jpg'],
   },
 }
 
