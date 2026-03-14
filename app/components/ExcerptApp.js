@@ -298,7 +298,7 @@ export default function ExcerptApp() {
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', userSelect: 'none', padding: '3px 0 10px', width: '100%' }}>
            <span style={s.lv1}>발췌 옵션</span>
            <span>
-              <span style={{ fontSize: 11, color: t3 }}>{optOpen ? '닫기' : '열기'}</span>
+              <span style={{ fontSize: 11, color: t3 }}>{optOpen ? '| 닫기' : '| 열기'}</span>
              <span style={{ fontSize: 9, color: t3, marginLeft: 3 }}>{optOpen ? '▴' : '▾'}</span>
            </span>
           </div>
