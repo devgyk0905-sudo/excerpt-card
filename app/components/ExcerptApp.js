@@ -72,6 +72,7 @@ export default function ExcerptApp() {
 
 useEffect(() => {
   try {
+    if (typeof window === 'undefined') return
     const saved = localStorage.getItem('excerptOptions')
     if (!saved) return
     const o = JSON.parse(saved)
@@ -89,6 +90,7 @@ useEffect(() => {
 
 useEffect(() => {
   try {
+    if (typeof window === 'undefined') return
     localStorage.setItem('excerptOptions', JSON.stringify({
       ratio, bgColor, fontCss, activeFont, fontSize, tc, align, isDark, selColor
     }))
