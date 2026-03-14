@@ -70,7 +70,31 @@ export default function ExcerptApp() {
     el.style.height = el.scrollHeight + 'px'
   }, [])
 
-  useEffect(() => { autoResize() }, [body, autoResize])
+useEffect(() => {
+  try {
+    const saved = localStorage.getItem('excerptOptions')
+    if (!saved) return
+    const o = JSON.parse(saved)
+    if (o.ratio)           setRatio(o.ratio)
+    if (o.bgColor)         setBgColor(o.bgColor)
+    if (o.fontCss)         setFontCss(o.fontCss)
+    if (o.activeFont)      setActiveFont(o.activeFont)
+    if (o.fontSize != null) setFontSize(o.fontSize)
+    if (o.tc)              setTc(o.tc)
+    if (o.align)           setAlign(o.align)
+    if (o.isDark != null)  setIsDark(o.isDark)
+  } catch {}
+}, [])
+
+useEffect(() => {
+  try {
+    localStorage.setItem('excerptOptions', JSON.stringify({
+      ratio, bgColor, fontCss, activeFont, fontSize, tc, align, isDark
+    }))
+  } catch {}
+}, [ratio, bgColor, fontCss, activeFont, fontSize, tc, align, isDark])
+
+useEffect(() => { autoResize() }, [body, autoResize])
 
 
   /* ── PC 가로 드래그 스크롤 ── */
@@ -115,24 +139,30 @@ export default function ExcerptApp() {
       a.click()
     } catch(e) { alert('저장 오류: ' + e.message) }
   }
-  async function copyImage() {
+async function copyImage() {
   try {
     const canvas = await doExport()
-    const dataUrl = canvas.toDataURL('image/png')
-      // 클립보드 복사 시도
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+
+    if (isMobile) {
+      // 모바일은 무조건 모달
+      setModalImg(canvas.toDataURL('image/png'))
+    } else {
+      // PC는 클립보드 복사 시도
       canvas.toBlob(async blob => {
         try {
           await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
           const btn = document.getElementById('copy-btn')
           btn.textContent = '복사됨 ✓'
-         setTimeout(() => { btn.textContent = '복사하기' }, 1500)
+          setTimeout(() => { btn.textContent = '복사하기' }, 1500)
         } catch {
-          // 실패하면 모달로 이미지 띄우기
-          setModalImg(dataUrl)
+          // PC에서도 실패하면 모달
+          setModalImg(canvas.toDataURL('image/png'))
         }
       })
-    } catch(e) { alert('복사 오류: ' + e.message) }
-  }
+    }
+  } catch(e) { alert('오류: ' + e.message) }
+}
 
 
   const ratioClass = { r11: '1/1', r34: '3/4', r916: '9/16' }
