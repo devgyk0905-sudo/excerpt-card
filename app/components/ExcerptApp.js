@@ -55,6 +55,7 @@ export default function ExcerptApp() {
   const [moreOpen,   setMoreOpen]  = useState(false)
   const [isDark,     setIsDark]    = useState(false)
   const [modalImg,   setModalImg]  = useState(null)
+  const [bgBlur,     setBgBlur]    = useState(false)
 
   const previewRef   = useRef(null)
   const textareaRef  = useRef(null)
@@ -85,6 +86,7 @@ useEffect(() => {
     if (o.align)           setAlign(o.align)
     if (o.isDark != null)  setIsDark(o.isDark)
     if (o.selColor != null) setSelColor(o.selColor)
+    if (o.bgBlur !=null)   setBgBlur(o.bgBlur)
   } catch {}
 }, [])
 
@@ -92,7 +94,7 @@ useEffect(() => {
   try {
     if (typeof window === 'undefined') return
     localStorage.setItem('excerptOptions', JSON.stringify({
-      ratio, bgColor, fontCss, activeFont, fontSize, tc, align, isDark, selColor
+      ratio, bgColor, fontCss, activeFont, fontSize, tc, align, isDark, selColor, bgBlur
     }))
   } catch {}
 }, [ratio, bgColor, fontCss, activeFont, fontSize, tc, align, isDark, selColor])
@@ -149,7 +151,14 @@ async function copyImage() {
 
     if (isMobile) {
       // 모바일은 무조건 모달
-      setModalImg(canvas.toDataURL('image/png'))
+      const offscreen = document.createElement('canvas')
+      offscreen.width  = canvas.width
+      offscreen.height = canvas.height
+      const ctx = offscreen.getContext('2d')
+      ctx.fillStyle = bgColor || '#ffffff'
+      ctx.fillRect(0, 0, offscreen.width, offscreen.height)
+      ctx.drawImage(canvas, 0, 0)
+      setModalImg(offscreen.toDataURL('image/jpeg', 0.95))
     } else {
       // PC는 클립보드 복사 시도
       canvas.toBlob(async blob => {
@@ -160,7 +169,14 @@ async function copyImage() {
           setTimeout(() => { btn.textContent = '복사하기' }, 1500)
         } catch {
           // PC에서도 실패하면 모달
-          setModalImg(canvas.toDataURL('image/png'))
+          const offscreen = document.createElement('canvas')
+            offscreen.width  = canvas.width
+            offscreen.height = canvas.height
+            const ctx = offscreen.getContext('2d')
+            ctx.fillStyle = bgColor || '#ffffff'
+            ctx.fillRect(0, 0, offscreen.width, offscreen.height)
+            ctx.drawImage(canvas, 0, 0)
+            setModalImg(offscreen.toDataURL('image/jpeg', 0.95))
         }
       })
     }
@@ -186,7 +202,7 @@ async function copyImage() {
     appTitle:  { fontSize: 13, fontWeight: 400, color: t3, letterSpacing: '0.04em', fontFamily: sans },
     darkBtn:   { background: 'none', border: `0.5px solid ${bdr}`, borderRadius: 20, padding: '4px 10px', fontSize: 11, color: sub, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, fontFamily: sans },
     previewWrap: { flexShrink: 0, padding: '0 18px 12px' },
-    previewBox:  { width: '100%', aspectRatio: ratioClass[ratio], borderRadius: 12, overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '32px 28px', background: previewBg, transition: 'background .3s' },
+    previewBox:  { width: '100%', aspectRatio: ratioClass[ratio], borderRadius: 12, overflow: 'hidden', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '32px 28px', transition: 'background .3s' },
     pvBody:    { fontSize: SIZES[fontSize - 1], lineHeight: 1.8, marginBottom: 12, whiteSpace: 'pre-line', color: tcMain, textAlign: align, fontFamily: fontCss, wordBreak: 'keep-all', transition: 'all .2s' },
     pvTitle:  { fontFamily: sans, fontSize: 13, fontWeight: 400, marginBottom: 3, color: tcMain, textAlign: align },
 pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, textAlign: align },
@@ -234,10 +250,20 @@ pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, te
         </div>
 
         {/* 미리보기 */}
-        <div style={s.previewWrap}>
-          <div ref={previewRef} style={s.previewBox}>
+        <div ref={previewRef} style={{ ...s.previewBox, overflow: 'hidden', position: 'relative' }}>
+          {/* 배경 레이어 */}
+         <div style={{
+           position: 'absolute', inset: 0,
+           background: previewBg,
+           filter: bgBlur ? 'blur(6px)' : 'none',
+           transform: bgBlur ? 'scale(1.08)' : 'scale(1)',
+            transition: 'filter .3s, transform .3s',
+           zIndex: 0,
+         }} />
+         {/* 텍스트 레이어 */}
+          <div style={{ position: 'relative', zIndex: 1 }}>
            <p style={s.pvBody}>{body}</p>
-            <p style={s.pvTitle}>{title}</p>
+           <p style={s.pvTitle}>{title}</p>
            <p style={s.pvAuthor}>{author}</p>
           </div>
         </div>
@@ -299,6 +325,12 @@ pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, te
                       }} />
                   ))}
                 </div>
+                // 배경 div 닫는 태그 바로 아래에
+                <label style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, cursor: 'pointer', fontSize: 12, color: sub, fontFamily: sans }}>
+                 <input type="checkbox" checked={bgBlur} onChange={e => setBgBlur(e.target.checked)}
+                    style={{ width: 14, height: 14, cursor: 'pointer', accentColor: t1 }} />
+                  배경 흐리게 하기
+                </label>
               </div>
 
               {/* 글꼴 */}
@@ -365,19 +397,16 @@ pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, te
               <div style={{ display: 'flex', flexDirection: 'column', gap: 5, marginBottom: 4 }}>
                 <span style={s.lv2}>정렬</span>
                 <div style={{ display: 'flex', gap: 5 }}>
-                  {['center', 'left', 'right'].map(a => {
-                    /*
-                    left-center-right...로 되어야 하는데, 좌측 정렬 ui가 실제로는 중앙 정렬로 작동함(중앙정렬 아이콘은 좌측 정렬로 작동함). 내부 수정하기 번거로워 아이콘 위치 스왑하는 걸로 간단히 대처진행함.
-                    */
+                  {['left', 'center', 'right'].map(a => {
                     const active = align === a
                     const lc = lineColor(active)
                     return (
                       <button key={a} onClick={() => setAlign(a)}
                         style={{ border: `0.5px solid ${active ? t1 : bdr}`, borderRadius: 7, width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', background: active ? t1 : card, flexDirection: 'column', gap: 3, padding: '7px 6px' }}>
                         <span style={{ height: 1.5, width: '100%', background: lc, borderRadius: 1, display: 'block' }} />
-                        <span style={{ height: 1.5, width: '55%',  background: lc, borderRadius: 1, display: 'block',
-                          marginLeft:  a === 'right'  ? 'auto' : '0',
-                          marginRight: a === 'center' ? 'auto' : '0',
+                        <span style={{ height: 1.5, width: '55%', background: lc, borderRadius: 1, display: 'block',
+                           marginLeft:  a === 'center' ? 'auto' : a === 'right' ? 'auto' : '0',
+                           marginRight: a === 'center' ? 'auto' : '0',
                         }} />
                         <span style={{ height: 1.5, width: '100%', background: lc, borderRadius: 1, display: 'block' }} />
                       </button>
@@ -427,7 +456,7 @@ pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, te
           <img
             src={modalImg}
             alt="발췌 카드"
-            style={{ maxWidth: '100%', maxHeight: '70vh', borderRadius: 12, WebkitTouchCallout: 'default' }}
+            style={{ maxWidth: '100%', maxHeight: '70vh', borderRadius: 0, WebkitTouchCallout: 'default' }}
             onClick={e => e.stopPropagation()}
           />
           <button onClick={() => setModalImg(null)}
