@@ -83,16 +83,17 @@ useEffect(() => {
     if (o.tc)              setTc(o.tc)
     if (o.align)           setAlign(o.align)
     if (o.isDark != null)  setIsDark(o.isDark)
+    if (o.selColor != null) setSelColor(o.selColor)
   } catch {}
 }, [])
 
 useEffect(() => {
   try {
     localStorage.setItem('excerptOptions', JSON.stringify({
-      ratio, bgColor, fontCss, activeFont, fontSize, tc, align, isDark
+      ratio, bgColor, fontCss, activeFont, fontSize, tc, align, isDark, selColor
     }))
   } catch {}
-}, [ratio, bgColor, fontCss, activeFont, fontSize, tc, align, isDark])
+}, [ratio, bgColor, fontCss, activeFont, fontSize, tc, align, isDark, selColor])
 
 useEffect(() => { autoResize() }, [body, autoResize])
 
@@ -362,7 +363,10 @@ pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, te
               <div style={{ display: 'flex', flexDirection: 'column', gap: 5, marginBottom: 4 }}>
                 <span style={s.lv2}>정렬</span>
                 <div style={{ display: 'flex', gap: 5 }}>
-                  {['left', 'center', 'right'].map(a => {
+                  {['center', 'left', 'right'].map(a => {
+                    ```
+                    left-center-right...로 되어야 하는데, 좌측 정렬 ui가 실제로는 중앙 정렬로 작동함(중앙정렬 아이콘은 좌측 정렬로 작동함). 내부 수정하기 번거로워 아이콘 위치 스왑하는 걸로 간단히 대처진행함.
+                    ```
                     const active = align === a
                     const lc = lineColor(active)
                     return (
