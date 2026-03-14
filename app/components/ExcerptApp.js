@@ -231,7 +231,7 @@ pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, te
       cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: sans, flexShrink: 0,
     }),
     fontMoreBtn: { border: '0.5px solid #DADADA', borderRadius: 7, padding: '5px 8px', fontSize: 11, color: '#DADADA', background: isDark ? '#1e1e1e' : '#FAFAF8', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0, fontFamily: sans },
-    copyright:   { textAlign: 'center', fontSize: 9, color: '#969696', padding: '24px 0 20px', fontFamily: sans },
+    copyright:   { textAlign: 'center', fontSize: 9, color: '#969696', padding: '40px 0 20px', fontFamily: sans },
   }
 
   const lineColor = (active) => active ? (isDark ? '#161616' : '#F5F3EF') : t3
@@ -242,7 +242,7 @@ pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, te
 
         {/* 상단 바 */}
         <div style={s.topBar}>
-          <span style={s.appTitle}>발췌 카드</span>
+          <span style={s.appTitle}>✉️발췌 카드 생성하기</span>
           <button style={s.darkBtn} onClick={() => setIsDark(d => !d)}>
             <span>{isDark ? '☀️' : '🌙'}</span>
             <span>{isDark ? '라이트 모드' : '다크 모드'}</span>
@@ -250,22 +250,22 @@ pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, te
         </div>
 
         {/* 미리보기 */}
-        <div ref={previewRef} style={{ ...s.previewBox, overflow: 'hidden', position: 'relative' }}>
-          {/* 배경 레이어 */}
+        <div ref={previewRef} style={{ ...s.previewBox, background: 'none', borderRadius: 12, overflow: 'hidden' }}>
+        {/* 배경 레이어 */}
          <div style={{
-           position: 'absolute', inset: 0,
+            position: 'absolute', inset: 0,
            background: previewBg,
-           filter: bgBlur ? 'blur(6px)' : 'none',
+           filter: bgBlur ? 'blur(2px)' : 'none',
            transform: bgBlur ? 'scale(1.08)' : 'scale(1)',
             transition: 'filter .3s, transform .3s',
-           zIndex: 0,
+            zIndex: 0,
          }} />
          {/* 텍스트 레이어 */}
-          <div style={{ position: 'relative', zIndex: 1 }}>
-           <p style={s.pvBody}>{body}</p>
-           <p style={s.pvTitle}>{title}</p>
-           <p style={s.pvAuthor}>{author}</p>
-          </div>
+         <div style={{ position: 'relative', zIndex: 1 }}>
+            <p style={s.pvBody}>{body}</p>
+            <p style={s.pvTitle}>{title}</p>
+            <p style={s.pvAuthor}>{author}</p>
+         </div>
         </div>
 
         {/* 복사/저장 */}
@@ -325,7 +325,7 @@ pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, te
                       }} />
                   ))}
                 </div>
-                // 배경 div 닫는 태그 바로 아래에
+                {/* 배경 div 닫는 태그 바로 아래에 */}
                 <label style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, cursor: 'pointer', fontSize: 12, color: sub, fontFamily: sans }}>
                  <input type="checkbox" checked={bgBlur} onChange={e => setBgBlur(e.target.checked)}
                     style={{ width: 14, height: 14, cursor: 'pointer', accentColor: t1 }} />
@@ -403,12 +403,65 @@ pvAuthor: { fontFamily: sans, fontSize: 12, fontWeight: 300, color: tcAuthor, te
                     return (
                       <button key={a} onClick={() => setAlign(a)}
                         style={{ border: `0.5px solid ${active ? t1 : bdr}`, borderRadius: 7, width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', background: active ? t1 : card, flexDirection: 'column', gap: 3, padding: '7px 6px' }}>
-                        <span style={{ height: 1.5, width: '100%', background: lc, borderRadius: 1, display: 'block' }} />
-                        <span style={{ height: 1.5, width: '55%', background: lc, borderRadius: 1, display: 'block',
-                           marginLeft:  a === 'center' ? 'auto' : a === 'right' ? 'auto' : '0',
-                           marginRight: a === 'center' ? 'auto' : '0',
-                        }} />
-                        <span style={{ height: 1.5, width: '100%', background: lc, borderRadius: 1, display: 'block' }} />
+                        {['left','center','right'].map((a,i)=>{
+
+  const lines = {
+    left: [
+      { width:'100%' },
+      { width:'60%', marginRight:'auto' },
+      { width:'80%' }
+    ],
+    center: [
+      { width:'100%' },
+      { width:'60%', marginLeft:'auto', marginRight:'auto' },
+      { width:'100%' }
+    ],
+    right: [
+      { width:'100%' },
+      { width:'60%', marginLeft:'auto' },
+      { width:'80%', marginLeft:'auto' }
+    ]
+  }
+
+  return (
+    <button
+      key={a}
+      onClick={()=>setAlign(a)}
+      style={{
+        border:`0.5px solid ${active ? t1 : bdr}`,
+        borderRadius:7,
+
+        width:32,
+        height:32,
+
+        display:'flex',
+        flexDirection:'column',
+        justifyContent:'center',
+
+        gap:2,
+        padding:'6px 6px',
+
+        cursor:'pointer',
+        background: active ? t1 : card
+      }}
+    >
+
+      {lines[a].map((l,j)=>(
+        <span
+          key={j}
+          style={{
+            height:1.5,
+            borderRadius:1,
+            background:lc,
+            display:'block',
+            ...l
+          }}
+        />
+      ))}
+
+    </button>
+  )
+                  })}
                       </button>
                     )
                   })}
