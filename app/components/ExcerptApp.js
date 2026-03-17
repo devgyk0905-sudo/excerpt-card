@@ -364,7 +364,7 @@ export default function ExcerptApp() {
                   </button>
                 </div>
                 {moreOpen && (
-                  <div style={{ ...s.hScroll, marginTop: 5, alignItems: 'center' }} {...dragProps('more')}>
+                  <div style={{ ...s.hScroll, marginTop: 5, alignItems: 'stretch' }} {...dragProps('more')}>
                     {MORE_FONTS.map(g => (
                       <React.Fragment key={g.group}>
                         <span style={{ fontSize: 9, color: t3, whiteSpace: 'nowrap', flexShrink: 0, alignSelf: 'center', padding: '0 2px' }}>
